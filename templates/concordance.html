@@ -1,0 +1,14 @@
+
+<h2>Concordance</h2>
+
+{% if concordance %}
+    {% for word,spans in concordance.words | dictsort %}
+        <h3>{{ word }}</h3>
+        {% for span in spans %}
+            {{ concordance.span_prefix(span)}}<b>{{ word }}</b>{{ concordance.span_suffix(span) }}<br/>
+        {% endfor %}
+    {% endfor %}
+{% else %}
+   Problem!
+{% endif %}
+

@@ -1,0 +1,3 @@
+
+CARREL_URL = "https://distantreader.org/carrels/%s/etc/reader.txt"
+
