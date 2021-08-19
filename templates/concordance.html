@@ -1,14 +1,38 @@
-
-<h2>Concordance</h2>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concordance</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+</head>
+<body>
+<section class="section">
+  <div class="container">
+  <h1 class="title">Concordance for {{ carrel }}</h1>
 
 {% if concordance %}
     {% for word,spans in concordance.words | dictsort %}
-        <h3>{{ word }}</h3>
+        <h3 class="title is-3">{{ word }}</h3>
+        <div class="block">
+          <table class="table">
+            <tbody>
         {% for span in spans %}
-            {{ concordance.span_prefix(span)}}<b>{{ word }}</b>{{ concordance.span_suffix(span) }}<br/>
+            <tr>
+          <td class="has-text-right">{{ concordance.span_prefix(span)}}</td>
+          <td class="has-text-centered"><b>{{ word }}</b></td>
+          <td class="has-text-left">{{ concordance.span_suffix(span) }}</td>
+            </tr>
         {% endfor %}
+            </tbody>
+          </table>
+        </div>
     {% endfor %}
 {% else %}
    Problem!
 {% endif %}
+  </div>
+</section>
+</body>
+</html>
 
