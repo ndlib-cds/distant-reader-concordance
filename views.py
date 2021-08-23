@@ -10,9 +10,12 @@ from flask import (
     send_from_directory,
 )
 import requests
+from diskcache import Index
 
 from app import app
 from models import Concordance
+
+Cache = Index(app.config['CACHE_DIRECTORY'])
 
 
 @app.route("/")
@@ -26,13 +29,17 @@ def concordance_view(carrel):
 
 
 def carrel_to_concordance(carrel):
-    source_url = app.config['CARREL_URL'] % carrel
-    r = requests.get(source_url)
-    if r.status_code != 200:
-        print(source_url, r.status_code)
-        return None
-    c = Concordance()
-    c.FromText(r.text)
+    c = Cache.get(carrel, None)
+    if c is None:
+        print("Cache miss", carrel)
+        source_url = app.config['CARREL_URL'] % carrel
+        r = requests.get(source_url)
+        if r.status_code != 200:
+            print(source_url, r.status_code)
+            return None
+        c = Concordance()
+        c.FromText(r.text)
+        Cache[carrel] = c
     return c
 
 
