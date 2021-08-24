@@ -1,1 +1,2 @@
-cache/
+concordance_cache/
+__pycache__/
