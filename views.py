@@ -25,7 +25,12 @@ def index():
 @app.route("/concordance/<carrel>")
 def concordance_view(carrel):
     c = carrel_to_concordance(carrel)
-    return render_template("concordance.html", concordance=c)
+    return render_template("concordance.html", concordance=c, carrel=carrel, target_word="")
+
+@app.route("/concordance/<carrel>/<target_word>")
+def concordance_word(carrel, target_word):
+    c = carrel_to_concordance(carrel)
+    return render_template("concordance.html", concordance=c, carrel=carrel, target_word=target_word)
 
 
 def carrel_to_concordance(carrel):

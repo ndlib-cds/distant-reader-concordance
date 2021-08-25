@@ -11,26 +11,28 @@
   <div class="container">
   <h1 class="title">Concordance for {{ carrel }}</h1>
 
-{% if concordance %}
+  {% if concordance %}
     {% for word,spans in concordance.words | dictsort %}
-        <h3 class="title is-3">{{ word }}</h3>
-        <div class="block">
-          <table class="table">
-            <tbody>
-        {% for span in spans %}
-            <tr>
-          <td class="has-text-right">{{ concordance.span_prefix(span)}}</td>
-          <td class="has-text-centered"><b>{{ word }}</b></td>
-          <td class="has-text-left">{{ concordance.span_suffix(span) }}</td>
-            </tr>
-        {% endfor %}
-            </tbody>
-          </table>
-        </div>
+      <a href="{{ url_for("concordance_word", carrel=carrel, target_word=word) }}#keyword-{{word}}"><h3 class="title is-3" id="keyword-{{word}}">{{ word }}</h3></a>
+        {% if word == target_word %}
+          <div class="block">
+            <table class="table">
+              <tbody>
+                {% for span in spans %}
+                  <tr>
+                  <td class="has-text-right">{{ concordance.span_prefix(span)}}</td>
+                  <td class="has-text-centered"><b>{{ word }}</b></td>
+                  <td class="has-text-left">{{ concordance.span_suffix(span) }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endif %}
     {% endfor %}
-{% else %}
-   Problem!
-{% endif %}
+  {% else %}
+     Problem!
+  {% endif %}
   </div>
 </section>
 </body>
